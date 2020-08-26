@@ -2,7 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { addTodo } from "../redux/actions";
 
-class AddTodo extends React.Component<{}, any> {
+interface IProps {
+  addTodo: any;
+}
+
+interface IState {
+  input: string;
+}
+
+class AddTodo extends React.Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = { input: "" };
@@ -13,7 +21,7 @@ class AddTodo extends React.Component<{}, any> {
   };
 
   handleAddTodo = () => {
-    addTodo(this.state.input);
+    this.props.addTodo(this.state.input);
     this.setState({ input: "" });
   };
 
@@ -24,7 +32,11 @@ class AddTodo extends React.Component<{}, any> {
           onChange={(e) => this.updateInput(e.target.value)}
           value={this.state.input}
         />
-        <button className="add-todo" onClick={this.handleAddTodo}>
+        <button
+          className="add-todo"
+          disabled={this.state.input === ""}
+          onClick={this.handleAddTodo}
+        >
           Add Todo
         </button>
       </div>
@@ -32,5 +44,11 @@ class AddTodo extends React.Component<{}, any> {
   }
 }
 
-export default connect(null, { addTodo })(AddTodo);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (content) => dispatch(addTodo(content)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddTodo);
 // export default AddTodo;
