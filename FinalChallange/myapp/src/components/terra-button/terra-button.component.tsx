@@ -1,47 +1,42 @@
 import React from "react";
 import Button from "terra-button/lib/Button";
-import { readURL } from "../terra-table.component/table-component.component";
-import Row from "../../models/Row";
-import Cell from "../../models/Cell";
 import { addUser } from "../../redux/actions/actions";
 import { connect } from "react-redux";
+import User from "../../models/User";
 
 interface IProps {
   addUser: any;
 }
 
 interface IState {
-  bodyData: any;
+  user: User[];
 }
 
-class ButtonVariant extends React.Component<{}, IState> {
+class ButtonVariant extends React.Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      bodyData: [],
+      user: [
+        {
+          id: "1",
+          name: "1",
+          username: "1",
+          email: "1",
+          phone: "1",
+          website: "1",
+        },
+      ],
     };
   }
 
-  async addRow(): Promise<Row[]> {
-    let rez = await readURL();
-    let cellId: Cell = new Cell(" ", " ");
-    let cells: Cell[] = [];
-    cells.push(cellId);
-    rez.unshift(new Row(" ", cells));
-    return rez;
-  }
-
-  async componentDidMount() {
-    let rez = await this.addRow();
-    this.setState({
-      bodyData: [{ rows: rez }],
-    });
-  }
+  addRow = () => {
+    this.props.addUser(this.state.user);
+  };
 
   render() {
     return (
       <div>
-        <Button onClick={this.addRow()} text="Neutral" />
+        <Button onClick={this.addRow} text="Neutral" />
       </div>
     );
   }

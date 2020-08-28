@@ -1,4 +1,5 @@
 import { createStore, compose } from "redux";
+import addUser from "./reducers/addUser";
 
 declare global {
   interface Window {
@@ -8,4 +9,4 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default createStore(rootReducer, composeEnhancers());
+export default createStore(addUser, composeEnhancers());
